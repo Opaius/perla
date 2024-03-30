@@ -13,20 +13,19 @@ import {
   Text,
   CTAButton,
 } from "@/components/styled-components";
-import { Tabs } from "@/components/tabs";
 import { FBReview } from "@/utils/types";
 import { Suspense } from "react";
 import { FaFacebook } from "react-icons/fa";
 
-async function getFbRating() {
-  const res = await fetch(
-    "https://graph.facebook.com/v19.0/174292882662667/ratings?fields=open_graph_story&limit=10&access_token=EAAzDz2n70voBOwQ1yu3Tg6A9Bxe9hNbDeSjUk3wGUfJuNkv8azRmBa3rdnwNfKXhbUuyZC4RztzRP0RZA3zEkMxRDcKtqWDAXqjRaZCSjpBtCtZAj4c68FJZCwHTpxAFZBbGOmXIR33TZCBRdcp7ggNycJBQ2HYNlPJfBms8vSwBWD2gwJZAFSpgKhDCuZBH8Lbtd4uZBSV7P1q90JgNgCkIvUMIgZD"
-  );
-  if (!res.ok) {
-    throw new Error(`Error : ${res.status} : ${res.statusText}`);
-  }
-  return res.json();
-}
+// async function getFbRating() {
+//   const res = await fetch(
+//     "https://graph.facebook.com/v19.0/174292882662667/ratings?fields=open_graph_story&limit=10&access_token=EAAzDz2n70voBOwQ1yu3Tg6A9Bxe9hNbDeSjUk3wGUfJuNkv8azRmBa3rdnwNfKXhbUuyZC4RztzRP0RZA3zEkMxRDcKtqWDAXqjRaZCSjpBtCtZAj4c68FJZCwHTpxAFZBbGOmXIR33TZCBRdcp7ggNycJBQ2HYNlPJfBms8vSwBWD2gwJZAFSpgKhDCuZBH8Lbtd4uZBSV7P1q90JgNgCkIvUMIgZD"
+//   );
+//   if (!res.ok) {
+//     throw new Error(`Error : ${res.status} : ${res.statusText}`);
+//   }
+//   return res.json();
+// }
 export default async function Home() {
   const images = [
     "/perla-slider-1.jpg",
@@ -305,12 +304,12 @@ export default async function Home() {
       ),
     },
   ];
-  const fbReviews = (await getFbRating()) as FBReview;
-  const cards = fbReviews.data.map((elm) => ({
-    quote: elm.open_graph_story.message,
-    id: elm.open_graph_story.id,
-    logo: <FaFacebook />,
-  }));
+  // const fbReviews = (await getFbRating()) as FBReview;
+  // const cards = fbReviews.data.map((elm) => ({
+  //   quote: elm.open_graph_story.message,
+  //   id: elm.open_graph_story.id,
+  //   logo: <FaFacebook />,
+  // }));
   return (
     <div className="flex flex-col gap-[5rem]">
       <section className="h-screen">
@@ -338,14 +337,14 @@ export default async function Home() {
         {tabs.map((tab) => tab.content)}
       </section>
       <Suspense fallback={<div>Loading</div>}>
-        <section className="h-full flex justify-center items-center">
+        {/* <section className="h-full flex justify-center items-center">
           <InfiniteMovingCards
             items={cards}
             speed="slow"
             pauseOnHover
             className="w-screen"
           ></InfiniteMovingCards>
-        </section>
+        </section> */}
       </Suspense>
     </div>
   );
