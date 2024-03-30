@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { Logo } from "./styled-components";
-import { createPortal } from "react-dom";
+import { Dialog, DialogTrigger, DialogContent } from "./dialog";
 
 const transition = {
   type: "spring",
@@ -70,41 +70,36 @@ export const Navbar = () => {
   return (
     <nav className="fixed top-5 z-10 flex left-5 md:justify-center w-full pointer-events-none *:pointer-events-auto">
       <Menu setActive={setActive}>
-        <Logo
-          className="z-30 md:hidden"
-          onClick={() => {
-            triggerPortal();
-          }}
-        />
+        <Dialog>
+          <DialogTrigger>
+            <Logo className="md:hidden" />
+          </DialogTrigger>
+          <DialogContent className="">
+            <motion.div
+              variants={overlay}
+              key="portal"
+              initial="hidden"
+              exit="hidden"
+              animate="visible"
+              className={`md:hidden left-0 top-0 w-full h-full flex flex-col
+                bg-background/90`}
+            >
+              <div className="flex flex-col mx-5 gap-5 *:p-5 *:bg-foreground *:rounded-3xl">
+                <motion.div variants={overlayChildren} className="">
+                  <Link href="/#oferte" onClick={() => triggerPortal()}>
+                    Oferte
+                  </Link>
+                </motion.div>
+                <motion.div variants={overlayChildren} className="">
+                  <Link href="/camere">Camere</Link>
+                </motion.div>
+              </div>
+            </motion.div>
+          </DialogContent>
+        </Dialog>
+
         <Logo className="hidden md:block" />
 
-        {createPortal(
-          <AnimatePresence>
-            {portalActive && (
-              <motion.div
-                variants={overlay}
-                key="portal"
-                initial="hidden"
-                exit="hidden"
-                animate="visible"
-                className={`md:hidden fixed left-0 top-0 w-full h-full flex flex-col
-                bg-background/90`}
-              >
-                <div className="flex flex-col mt-[100px] mx-5 gap-5 *:p-5 *:bg-foreground *:rounded-3xl">
-                  <motion.div variants={overlayChildren} className="">
-                    <Link href="/#oferte" onClick={() => triggerPortal()}>
-                      Oferte
-                    </Link>
-                  </motion.div>
-                  <motion.div variants={overlayChildren} className="">
-                    <Link href="/camere">Camere</Link>
-                  </motion.div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>,
-          document.body
-        )}
         <div className="hidden md:block">
           <MenuItem setActive={setActive} active={active} item="Home">
             <div>Hi</div>
