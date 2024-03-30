@@ -35,6 +35,11 @@ export const ImagesSlider = ({
       prevIndex - 1 < 0 ? images.length - 1 : prevIndex - 1
     );
   };
+
+  useEffect(() => {
+    loadImages();
+  }, []);
+
   const loadImages = () => {
     setLoading(true);
     const loadPromises = images.map((image) => {
@@ -45,9 +50,6 @@ export const ImagesSlider = ({
         img.onerror = reject;
       });
     });
-    useEffect(() => {
-      loadImages();
-    }, [loadImages]);
 
     Promise.all(loadPromises)
       .then((loadedImages) => {
@@ -79,7 +81,7 @@ export const ImagesSlider = ({
       window.removeEventListener("keydown", handleKeyDown);
       clearInterval(interval);
     };
-  }, [autoplay, handleNext, handlePrevious]);
+  }, []);
 
   useEffect(() => {}, []);
 
