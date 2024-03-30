@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "@/components/nav-bar";
+import { Footer } from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="scroll-smooth ">
+      <body className={`${inter.className} scroll bg-background text-text `}>
+        <div className="grid auto-rows-[auto_1fr_auto] ">
+          <Navbar></Navbar>
+          <main>{children}</main>
+          <Footer></Footer>
+        </div>
+      </body>
     </html>
   );
 }
