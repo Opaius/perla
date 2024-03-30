@@ -326,7 +326,11 @@ export default async function Home() {
       <section id="oferte" className="mx-2 md:mx-10 flex flex-col gap-10 my-10">
         <div className="flex justify-around">
           {tabs.map((tab) => (
-            <CustomButton className="xl:text-md" href={`#${tab.value}`}>
+            <CustomButton
+              key={tab.title}
+              className="xl:text-md"
+              href={`#${tab.value}`}
+            >
               {tab.title}
             </CustomButton>
           ))}

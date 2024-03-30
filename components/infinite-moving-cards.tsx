@@ -88,6 +88,7 @@ export const InfiniteMovingCards = ({
       >
         {items.map((item, idx) => (
           <a
+            key={item.id}
             href="https://www.facebook.com/CazareBucovinaPerlaBrazilor/reviews"
             target="_blank"
             className="flex items-center"
