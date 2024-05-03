@@ -1,351 +1,363 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/dialog";
-import { ImagesSlider } from "@/components/image-slider";
-import { InfiniteMovingCards } from "@/components/infinite-moving-cards";
-import { SejurCraciun, SejurPaste } from "@/components/sejur-calc";
-import { Separator } from "@/components/separator";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
-  CustomButton,
-  H2,
-  H3,
-  H4,
-  OfertaCard,
-  TextThin,
-  Text,
-  CTAButton,
-} from "@/components/styled-components";
-import { FBReview } from "@/utils/types";
-import { Suspense } from "react";
-import { FaFacebook } from "react-icons/fa";
+  CTA,
+  SejurCraciun,
+  SejurPaste,
+  SejurRevelion,
+  TabSize,
+} from "@/components/ui/custom-elements";
+import { ImagesSlider } from "@/components/ui/image-slider";
+import { Separator } from "@/components/ui/separator";
+import { Tabs } from "@/components/ui/tabs-acet";
+import { useSession } from "next-auth/react";
 
-// async function getFbRating() {
-//   const res = await fetch(
-//     "https://graph.facebook.com/v19.0/174292882662667/ratings?fields=open_graph_story&limit=10&access_token=EAAzDz2n70voBOwQ1yu3Tg6A9Bxe9hNbDeSjUk3wGUfJuNkv8azRmBa3rdnwNfKXhbUuyZC4RztzRP0RZA3zEkMxRDcKtqWDAXqjRaZCSjpBtCtZAj4c68FJZCwHTpxAFZBbGOmXIR33TZCBRdcp7ggNycJBQ2HYNlPJfBms8vSwBWD2gwJZAFSpgKhDCuZBH8Lbtd4uZBSV7P1q90JgNgCkIvUMIgZD"
-//   );
-//   if (!res.ok) {
-//     throw new Error(`Error : ${res.status} : ${res.statusText}`);
-//   }
-//   return res.json();
-// }
-export default async function Home() {
+export default function Home() {
+  return (
+    <div>
+      <SectionOne />
+      <SectionTwo />
+      <section></section>
+    </div>
+  );
+}
+const SectionOne = () => {
   const images = [
-    "/perla-slider-1.jpg",
-    "/perla-slider-2.jpg",
-    "/perla-slider-3.jpg",
+    "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fwww.dodotravel.ro%2Fcache%2F0%2F1%2F8%2F7%2F8%2F0187873ab1e774b9a79584c19aefd838a4ed6b23.jpeg&sp=1713854426T9ea1cd8f34160f58f0890fa0dbb62ae1f089a6c3c19567d436e9a4515e3a8644",
+    "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fwww.roturistic.ro%2Fimg%2Fuser%2FFrumosu_Perla_Brazilor%2FFrumosu_Perla_Brazilor_1509359458.92037892.jpg&sp=1713854426T1a3768a1b5a78778dbec65d11b3c334783f87b5d0d0be23ccc1ddeb4ee59574d",
   ];
+  return (
+    <section className="w-[100%] h-screen">
+      <ImagesSlider
+        overlayClassName="bg-gradient-to-b from-transparent to-background from-80% to-95%"
+        images={images}
+      >
+        <div className="z-50 grid auto-rows-[auto_auto_auto] place-items-center h-full ">
+          <h1 className=" font-extrabold text-3xl text-center mx-10 mt-[10rem] italic ">
+            „Bucovina, un loc minunat unde să-ți petreci vacanța în liniște.”
+          </h1>
+          <CTA className="w-max self-start mt-10">Rezervă acum</CTA>
+          <button className="self-end mb-5 italic font-extralight">
+            Vezi ofertele noastre
+          </button>
+        </div>
+      </ImagesSlider>
+    </section>
+  );
+};
+const SectionTwo = () => {
   const tabs = [
     {
-      title: "Oferta Paște",
+      title: "Oferta Paste",
       value: "paste",
       content: (
-        <article
-          id="paste"
-          className="bg-foreground border-[1px] border-text rounded-3xl pb-4 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 items-center"
-        >
-          <H2 className="md:col-span-2 lg:col-span-3">
-            Oferta Paște în Bucovina 2024
-          </H2>
-          <OfertaCard>
-            <H3>Prețuri</H3>
-            <H4>
-              5 nopţi (6 zile) <br /> 2600 lei/persoana
-            </H4>
-            <Separator />
-            <H4>
-              4 nopţi (5 zile) <br />
-              2200 lei/persoana
-            </H4>
-            <Separator />
-            <H4>
-              3 nopţi (4 zile) <br />
-              1800 lei/persoana
-            </H4>
-            <Separator />
-            <TextThin>
-              Prețurile includ : accesul la piscină, saună, ciubăr cu apă
-              sărata, cameră cu sare, adusă de la Mina de sare Cacica și alte
-              programe notate.
-            </TextThin>
-            <TextThin>
-              Acordăm reduceri speciale: 50% pentru copii până în 12 ani, 70%
-              pentru cei cu vârsta între 6 și 4 ani, iar cei între 3 și 0 ani
-              beneficiază de gratuitate.
-            </TextThin>
-            <Dialog>
-              <DialogTrigger asChild>
-                <CTAButton>Calculează-ți sejurul !</CTAButton>
-              </DialogTrigger>
-              <DialogContent className="max-w-[50rem]">
-                <H3>Calculează cât costă un sejur la noi !</H3>
-                <SejurPaste />
-              </DialogContent>
-            </Dialog>
-          </OfertaCard>
-          <OfertaCard className="justify-between  ">
-            <H3>Program</H3>
-            <div>
-              <H4 className="underline underline-offset-2">4 Mai</H4>
-              <Text>
-                În jurul orei 11 va avea loc o plimbare cu căruțele trase de
-                cai. Pe parcursul traseului vom organiza o demonstrație de
-                încondeiere a ouălor, de unde veți putea și achiziționa. La
-                întoarcere, se va face un grătar în aer liber, cu muzică și voie
-                bună.
-              </Text>
-            </div>
-            <Separator />
-            <div>
-              <H4 className="underline underline-offset-2">5 Mai</H4>
-              <Text>
-                Masa festivă va fi plină de bunătăți tradiționale, dintre care
-                nu vei ști ce să alegi. Nu va lipsi friptura de miel, pastravul
-                afumat în ramuri de brad și multe altele.
-              </Text>
-            </div>
-          </OfertaCard>
-          <OfertaCard className="md:col-span-2 lg:col-auto justify-center">
-            <H3>Detalii</H3>
-            <Text>
-              Se vor servi băuturi alcoolice tradiționale: vin de Odobești,
-              țuică de Zalău, afinată, vișinată, murată, bere la halbă Suceava,
-              băuturi răcoritoare, sucuri naturale, apă plată și minerală.
-              Mesele se vor servi la bufet, cu excepția mesei festive care va fi
-              servită la masă. Mâncarea este preparată în proporție de 80% din
-              producție proprie.
-            </Text>
-          </OfertaCard>
-          <CTAButton className="self-center justify-self-center md:col-span-2 lg:col-span-3 lg:w-max mx-5">
-            Rezervă acum !
-          </CTAButton>
-        </article>
+        <div className="flex flex-col items-center gap-10">
+          <TabSize>
+            <Card className="md:justify-self-end w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Prețuri
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <h3>
+                    5 nopţi (6 zile)
+                    <br /> 2600 lei/persoana
+                  </h3>
+                  <Separator className="w-[70%]" />
+                  <h3>
+                    4 nopţi (5 zile) <br />
+                    2200 lei/persoana
+                  </h3>
+                  <Separator className="w-[70%]" />
+                  <h3>
+                    3 nopţi (4 zile) <br />
+                    1800 lei/persoana
+                  </h3>
+                  <Separator className="w-[70%]" />
+                  <h4 className="text-xs text-pretty font-light px-10">
+                    Oferim reduceri de 50% pentru copii pana in 12 ani, de 70%
+                    pentru copii 5-3 ani gratuit 2-0 ani
+                  </h4>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className=" w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Program
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <span>
+                    <h3 className="font-bold mb-10 text-lg">- 4 MAI -</h3>
+                    <p className="text-sm font-light mx-5 text-left">
+                      În jurul orei 11 program plimbare cu căruțele trase de
+                      cai,in traseu vom organiza o demonstratie de incondeiat
+                      ouale de unde veti putea si achizitiona,la intoarcere se
+                      va face gratar in aer liber muzica si voia buna
+                    </p>
+                  </span>
+                  <Separator className="w-[70%]" />
+                  <span>
+                    <h3 className="font-bold mb-10 text-lg">- 5 MAI -</h3>
+                    <p className="text-sm font-light mx-5 text-right">
+                      Masa festivă plină de bunătăți tradiționale,din care nu
+                      vei ști ce să alegi,nu v-a lipsi friptura de
+                      miel,pastravul afumat in ramuri de brad si multe altele
+                    </p>
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="md:justify-self-start w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Alte detalii
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <p className="text-sm font-light mx-5 text-left">
+                    Masa festivă plină de bunătăți tradiționale,din care nu vei
+                    ști ce să alegi,nu v-a lipsi friptura de miel,pastravul
+                    afumat in ramuri de brad si multe altele
+                  </p>
+                  <p className="text-sm font-light mx-5 text-right">
+                    Masa festivă plină de bunătăți tradiționale,din care nu vei
+                    ști ce să alegi,nu v-a lipsi friptura de miel,pastravul
+                    afumat in ramuri de brad si multe altele
+                  </p>
+                  <p className="text-sm font-light mx-5 text-left">
+                    Masa festivă plină de bunătăți tradiționale,din care nu vei
+                    ști ce să alegi,nu v-a lipsi friptura de miel,pastravul
+                    afumat in ramuri de brad si multe altele
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabSize>
+          <div className="flex flex-col items-center gap-5">
+            <CTA className="w-[70%] shadow-[0_0_50px_black]">Rezervă acum</CTA>
+            <SejurPaste />
+          </div>
+        </div>
       ),
     },
     {
-      title: "Oferta Crăciun",
+      title: "Oferta Craciun",
       value: "craciun",
       content: (
-        <article
-          id="craciun"
-          className="bg-foreground border-[1px] border-text rounded-3xl pb-4 flex flex-col md:grid md:grid-cols-2 2xl:grid-cols-3 items-center"
-        >
-          <H2 className="md:col-span-2 2xl:col-span-3 ">
-            Ofertă Pachet Crăciun în Bucovina
-          </H2>
-          <OfertaCard className=" justify-between">
-            <H3>Prețuri</H3>
-            <H4>
-              Te invităm într-o experiență unică cu totul inclusiv, oferind
-              acces la facilități deosebite precum piscina, sauna și ciubarul cu
-              apă sărată (extrasă de la Cacica).
-            </H4>
-            <Separator />
-            <H3>4 nopți și 5 zile, la doar 2600 lei/persoană </H3>
-            <Separator />
-
-            <TextThin>
-              Acordăm reduceri speciale: 50% pentru copii până în 12 ani, 70%
-              pentru cei cu vârsta între 6 și 4 ani, iar cei între 3 și 0 ani
-              beneficiază de gratuitate. ​
-            </TextThin>
-            <Dialog>
-              <DialogTrigger asChild>
-                <CTAButton>Calculează-ți sejurul !</CTAButton>
-              </DialogTrigger>
-              <DialogContent className="max-w-[50rem]">
-                <H3>Calculează cât costă un sejur la noi !</H3>
-                <SejurCraciun />
-              </DialogContent>
-            </Dialog>
-          </OfertaCard>
-          <OfertaCard className="md:col-span-2 md:grid md:grid-cols-2 2xl:col-auto ">
-            <H3 className="md:col-span-2">Program</H3>
-            <div>
-              <H4 className="underline underline-offset-2">23 decembrie</H4>
-              <Text>Bucură-te de o primire călduroasă, ca în Bucovina.</Text>
-              <Separator />
-            </div>
-            <div>
-              <H4 className="underline underline-offset-2">24 decembrie</H4>
-              <Text>
-                La ora 10, bucură-te de o plimbare în sănile trase de cai
-                (căruțele depind de vreme), urmată de o masă delicioasă în aer
-                liber, cu pomană porcului, grătar, friptură la ciaun, poale-n
-                brâu și, desigur, un excelent vin fiert și țuică fiartă. Seara
-                la cina Colindători și Moș Crăciun vor aduce magia sărbătorilor.
-              </Text>
-              <Separator />
-            </div>
-
-            <div>
-              <H4 className="underline underline-offset-2">25 decembrie</H4>
-              <Text>
-                Într-o atmosferă festivă, savurează bunătăți tradiționale la
-                masa specială de la ora 14.30 , acompaniată de orchestră
-              </Text>
-              <Separator />
-            </div>
-
-            <div>
-              <H4 className="underline underline-offset-2">26 decembrie</H4>
-              <Text>
-                Ai opțiunea de a-ți petrece ziua liber, fie practicând schiul,
-                fie vizitând mănăstirile Moldovița, Sucevița, Voroneț sau
-                Mănăstirea Humorului, sau chiar experimentând o plimbare cu
-                Mocanița (hutulca) de la Moldovița.
-              </Text>
-            </div>
-          </OfertaCard>
-          <OfertaCard className="md:col-[2/3] md:row-[2/3] 2xl:col-auto 2xl:row-auto justify-center h-max">
-            <H3>Detalii</H3>
-            <Text>
-              Beneficiază de băuturi alcoolice tradiționale precum vin, țuică,
-              afinată, vișinată, murături, bere la halbă, băuturi răcoritoare,
-              apă plată și minerală. Servim mesele la bufet, cu excepția celei
-              festive, care va fi servită. Mâncarea, preparată în proporție de
-              80% din producția noastră proprie, te va încânta.
-            </Text>
-          </OfertaCard>
-
-          <CTAButton className="self-center justify-self-center md:col-span-2 lg:w-max mx-5 2xl:col-span-3">
-            Rezervă acum !
-          </CTAButton>
-        </article>
+        <div className="flex flex-col items-center gap-10">
+          <TabSize className="flex flex-col items-center gap-10">
+            <Card className="md:justify-self-end w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Prețuri
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <h3 className="text-sm">
+                    Te invităm într-o experiență unică cu totul inclusiv,
+                    oferind acces la facilități deosebite precum piscina, sauna
+                    și ciubarul cu apă sărată extrasă de la Cacica.
+                  </h3>
+                  <Separator className="bg-text w-[70%]" />
+                  <span>
+                    <h3>
+                      4 nopți și 5 zile
+                      <br /> la doar
+                    </h3>
+                    <h2 className="text-xl font-bold">2600 lei/persoana</h2>
+                  </span>
+                  <Separator className="bg-text w-[70%]" />
+                  <h4 className="text-xs text-pretty font-light px-10">
+                    Oferim reduceri de 50% pentru copii pana in 12 ani, de 70%
+                    pentru copii 5-3 ani gratuit 2-0 ani
+                  </h4>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className=" w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Program
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 23 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-left">
+                      Bucură-te de o primire călduroasă, ca în Bucovina.
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 24 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-right">
+                      La ora 10, bucură-te de o plimbare în sănile trase de cai
+                      (căruțele depind de vreme), urmată de o masă delicioasă în
+                      aer liber, cu pomană porcului, grătar, friptură la ciaun,
+                      poale-n brâu și, desigur, un excelent vin fiert și țuică
+                      fiartă. Seara la cina Colindători și Moș Crăciun vor aduce
+                      magia sărbătorilor.
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 25 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-left">
+                      Într-o atmosferă festivă, savurează bunătăți tradiționale
+                      la masa specială de la ora 14.30 , acompaniată de
+                      orchestră.
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 26 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-right">
+                      Zi liberă pentru a explora împrejurimile sau a vă bucura
+                      de liniștea din Bucovina.
+                    </p>
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="md:justify-self-start w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Alte detalii
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <p className="text-sm font-light mx-5 text-left">
+                    Beneficiază de băuturi alcoolice tradiționale precum vin,
+                    țuică, afinată, vișinată, murături, bere la halbă, băuturi
+                    răcoritoare, apă plată și minerală.
+                  </p>
+                  <p className="text-sm font-light mx-5 text-right">
+                    Servim mesele la bufet, cu excepția celei festive, care va
+                    fi servită.
+                  </p>
+                  <p className="text-sm font-light mx-5 text-left">
+                    Mâncarea, preparată în proporție de 80% din producția
+                    noastră proprie, te va încânta.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabSize>
+          <div className="flex flex-col items-center gap-5 ">
+            <CTA className="w-[70%] shadow-[0_0_50px_black]">Rezervă acum</CTA>
+            <SejurCraciun />
+          </div>
+        </div>
       ),
     },
     {
       title: "Oferta Revelion",
       value: "revelion",
       content: (
-        <article
-          id="revelion"
-          className="bg-foreground border-[1px] border-text rounded-3xl pb-4 flex flex-col md:grid md:grid-cols-2 2xl:grid-cols-3 items-center"
-        >
-          <H2 className="md:col-span-2 2xl:col-span-3 ">
-            Ofertă Pachet Crăciun în Bucovina
-          </H2>
-          <OfertaCard className=" justify-between">
-            <H3>Prețuri</H3>
-            <H4>
-              Te invităm într-o experiență unică cu totul inclusiv, oferind
-              acces la facilități deosebite precum piscina, sauna și ciubarul cu
-              apă sărată (extrasă de la Cacica).
-            </H4>
-            <Separator />
-            <H3>4 nopți și 5 zile, la doar 2600 lei/persoană </H3>
-            <Separator />
+        <div className="flex flex-col items-center gap-10">
+          <TabSize>
+            <Card className="md:justify-self-end w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Prețuri
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-10 items-center">
+                  <h3 className="text-sm">
+                    Te invităm într-o experiență unică cu totul inclusiv,
+                    oferind acces la facilități deosebite precum piscina, sauna
+                    și ciubarul cu apă sărată extrasă de la Cacica.
+                  </h3>
+                  <Separator className="bg-text w-[70%]" />
+                  <span>
+                    <h3>
+                      4 nopți și 5 zile
+                      <br /> la doar
+                    </h3>
+                    <h2 className="text-xl font-bold">3000 lei/persoana</h2>
+                  </span>
+                  <Separator className="bg-text w-[70%]" />
+                  <h4 className="text-xs text-pretty font-light px-10">
+                    Oferim reduceri de 50% pentru copii pana in 12 ani, de 70%
+                    pentru copii 5-3 ani gratuit 2-0 ani
+                  </h4>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className=" w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Program
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="*:text-center *:drop-shadow-lg flex flex-col gap-5  items-center">
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 29 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-left">
+                      Intâmpinarea oaspeților ca in Bucovina.
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 30 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-right">
+                      În jurul orei 10 program plimbare în sãnii (cãrute depinde
+                      de vreme) trase de cai la intoarcere se va face pomana
+                      porcului în mod tradițional, acompaniați de vin fiert
+                      țuică fiartă , șoric ,grătar, poale-n brâu muzica și voie
+                      bună
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 31 DECEMBRIE -</h3>
+                    <p className="text-sm font-light mx-5 text-left">
+                      După prânz se va desfășura programul datinelor de anul nou
+                      ca în Bucovina, cu uratori, capre, ursi, bumbieri,
+                      haramnice etc..
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- ORA 21:00 -</h3>
+                    <p className="text-sm font-light mx-5 text-right">
+                      Masa festivă de REVELION Mâncăruri tradiționale ,totul
+                      organizat într-un mod original cu orchestră
+                    </p>
+                  </span>
+                  <span>
+                    <h3 className="font-bold mb-1 text-lg">- 1 IANUARIE -</h3>
+                    <p className="text-sm font-light mx-5 text-right">
+                      Zi liberă.
+                    </p>
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="md:justify-self-start w-[350px] xl:w-[450px] sm:w-[400px]">
+              <CardHeader className="font-bold text-center text-2xl mt-5">
+                Alte detalii
+              </CardHeader>
+              <CardContent className="grid place-items-center md:h-[600px] h-[600px]">
+                <div className="flex flex-col *: drop-shadow-lg gap-10 items-center">
+                  <p className="text-sm font-light mx-5 text-left">
+                    Masa festivă include aperitive reci , piftie de curcan
+                    ,salata de biof ,pifteluțe marinate, pește , aperitiv cald
+                    și friptură de curcan , purcel, vitel ,garnituri etc.
+                  </p>
+                  <p className="text-sm font-light mx-5 text-right">
+                    Se vor servi băuturi alcolice tradiționale, vin,țuica,
+                    afinată, smeurată, bere la halba Suceava, bauturi
+                    racoritoare, apa plata si minerala.
+                  </p>
+                  <p className="text-sm font-light mx-5 text-left">
+                    Mesele se vor servi la bufet inafara de masa festiva care va
+                    fi servită.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabSize>
 
-            <TextThin>
-              Acordăm reduceri speciale: 50% pentru copii până în 12 ani, 70%
-              pentru cei cu vârsta între 6 și 4 ani, iar cei între 3 și 0 ani
-              beneficiază de gratuitate. ​
-            </TextThin>
-            <Dialog>
-              <DialogTrigger asChild>
-                <CTAButton>Calculează-ți sejurul !</CTAButton>
-              </DialogTrigger>
-              <DialogContent className="max-w-[50rem]">
-                <H3>Calculează cât costă un sejur la noi !</H3>
-                <SejurCraciun />
-              </DialogContent>
-            </Dialog>
-          </OfertaCard>
-          <OfertaCard className="md:col-span-2 md:grid md:grid-cols-2 2xl:col-auto ">
-            <H3 className="md:col-span-2">Program</H3>
-            <div>
-              <H4 className="underline underline-offset-2">23 decembrie</H4>
-              <Text>Bucură-te de o primire călduroasă, ca în Bucovina.</Text>
-              <Separator />
-            </div>
-            <div>
-              <H4 className="underline underline-offset-2">24 decembrie</H4>
-              <Text>
-                La ora 10, bucură-te de o plimbare în sănile trase de cai
-                (căruțele depind de vreme), urmată de o masă delicioasă în aer
-                liber, cu pomană porcului, grătar, friptură la ciaun, poale-n
-                brâu și, desigur, un excelent vin fiert și țuică fiartă. Seara
-                la cina Colindători și Moș Crăciun vor aduce magia sărbătorilor.
-              </Text>
-              <Separator />
-            </div>
-
-            <div>
-              <H4 className="underline underline-offset-2">25 decembrie</H4>
-              <Text>
-                Într-o atmosferă festivă, savurează bunătăți tradiționale la
-                masa specială de la ora 14.30 , acompaniată de orchestră
-              </Text>
-              <Separator />
-            </div>
-
-            <div>
-              <H4 className="underline underline-offset-2">26 decembrie</H4>
-              <Text>
-                Ai opțiunea de a-ți petrece ziua liber, fie practicând schiul,
-                fie vizitând mănăstirile Moldovița, Sucevița, Voroneț sau
-                Mănăstirea Humorului, sau chiar experimentând o plimbare cu
-                Mocanița (hutulca) de la Moldovița.
-              </Text>
-            </div>
-          </OfertaCard>
-          <OfertaCard className="md:col-[2/3] md:row-[2/3] 2xl:col-auto 2xl:row-auto justify-center h-max">
-            <H3>Detalii</H3>
-            <Text>
-              Beneficiază de băuturi alcoolice tradiționale precum vin, țuică,
-              afinată, vișinată, murături, bere la halbă, băuturi răcoritoare,
-              apă plată și minerală. Servim mesele la bufet, cu excepția celei
-              festive, care va fi servită. Mâncarea, preparată în proporție de
-              80% din producția noastră proprie, te va încânta.
-            </Text>
-          </OfertaCard>
-
-          <CTAButton className="self-center justify-self-center md:col-span-2 lg:w-max mx-5 2xl:col-span-3">
-            Rezervă acum !
-          </CTAButton>
-        </article>
+          <div className="flex flex-col items-center gap-5 ">
+            <CTA className="w-[70%] shadow-[0_0_50px_black]">Rezervă acum</CTA>
+            <SejurRevelion />
+          </div>
+        </div>
       ),
     },
   ];
-  // const fbReviews = (await getFbRating()) as FBReview;
-  // const cards = fbReviews.data.map((elm) => ({
-  //   quote: elm.open_graph_story.message,
-  //   id: elm.open_graph_story.id,
-  //   logo: <FaFacebook />,
-  // }));
   return (
-    <div className="flex flex-col gap-[5rem]">
-      <section className="h-screen">
-        <ImagesSlider
-          images={images}
-          overlayClassName="bg-gradient-to-b from-transparent to-background from-70% pointer-events-none z-10"
-        >
-          <CustomButton className="z-20" href="#oferte">
-            REZERVĂ ACUM
-          </CustomButton>
-        </ImagesSlider>
-      </section>
-      <section id="oferte" className="mx-2 md:mx-10 flex flex-col gap-10 my-10">
-        <div className="flex justify-around">
-          {tabs.map((tab) => (
-            <CustomButton
-              key={tab.title}
-              className="xl:text-md"
-              href={`#${tab.value}`}
-            >
-              {tab.title}
-            </CustomButton>
-          ))}
-        </div>
-        {tabs.map((tab) => tab.content)}
-      </section>
-      <Suspense fallback={<div>Loading</div>}>
-        {/* <section className="h-full flex justify-center items-center">
-          <InfiniteMovingCards
-            items={cards}
-            speed="slow"
-            pauseOnHover
-            className="w-screen"
-          ></InfiniteMovingCards>
-        </section> */}
-      </Suspense>
-    </div>
+    <section className="h-[calc(800px*3+460px)] md:h-[calc(750px*2+400px)] xl:h-[calc(750px+400px)] overflow-hidden">
+      <Tabs tabs={tabs} />
+    </section>
   );
-}
+};

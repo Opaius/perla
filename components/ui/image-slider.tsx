@@ -83,8 +83,6 @@ export const ImagesSlider = ({
     };
   }, []);
 
-  useEffect(() => {}, []);
-
   const slideVariants = {
     initial: {
       scale: 0,
